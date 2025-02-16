@@ -1,0 +1,3 @@
+C:/Users/halor/source/repos/miniverse-engine/build/CMakeFiles/miniverse-engine.dir
+C:/Users/halor/source/repos/miniverse-engine/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/halor/source/repos/miniverse-engine/build/CMakeFiles/ZERO_CHECK.dir

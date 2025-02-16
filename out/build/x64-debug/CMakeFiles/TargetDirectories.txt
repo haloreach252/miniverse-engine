@@ -1,0 +1,3 @@
+C:/Users/halor/source/repos/miniverse-engine/out/build/x64-debug/CMakeFiles/miniverse-engine.dir
+C:/Users/halor/source/repos/miniverse-engine/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/halor/source/repos/miniverse-engine/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
