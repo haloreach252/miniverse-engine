@@ -7,11 +7,16 @@
 #include "Shader.h"
 #include "KeyInput.h"
 #include "Mesh.h"
+#include "Model.h"
+#include "Camera.h"
 
 // Callback to adjust viewport when window is resized
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
+
+// Create camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 // Global color values
 float red = 1.0f, green = 1.0f, blue = 1.0f;
@@ -67,8 +72,8 @@ int main() {
     }
 
     // Load shaders using the shader class
-    Shader shader("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
-    Shader outlineShader("../shaders/outline_vertex_shader.glsl", "../shaders/outline_fragment_shader.glsl");
+    Shader shader("vertex_shader", "fragment_shader", true);
+    Shader outlineShader("outline_vertex_shader", "outline_fragment_shader", true);
 
     // Define a cube (8 vertices, indexed)
     std::vector<float> vertices = {
@@ -94,20 +99,32 @@ int main() {
 
     Mesh cube(vertices, indices);
 
+    Model model("Statue.obj", true);
+
     // Enable depth testing for 3D rendering
     glEnable(GL_DEPTH_TEST);
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(glm::vec3(2.0f, 2.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 projection = glm::perspective(glm::radians(70.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
 
     // Rendering loop
     while (!glfwWindowShouldClose(window)) {
         processInput(window, red, green, blue);
+        camera.ProcessKeyboard(0);
 
         // Clear the screen
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glm::mat4 view = camera.GetViewMatrix();
+        glm::mat4 modelMatrix = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 mvp = projection * view * modelMatrix;
+
+        shader.use();
+        shader.setFloat("uColor", red, green, blue);
+        shader.setMat4("modelViewProjection", mvp);
+        model.Draw();
+
+        /*
         glm::mat4 model = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
         glm::mat4 mvp = projection * view * model;
 
@@ -127,7 +144,7 @@ int main() {
         shader.use();
         shader.setMat4("modelViewProjection", mvp);
         shader.setFloat("uColor", red, green, blue);
-        cube.Draw();
+        cube.Draw();*/
 
         // Swap buffers and poll events
         glfwSwapBuffers(window);

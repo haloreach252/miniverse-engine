@@ -13,7 +13,7 @@ public:
 	unsigned int ID;
 
 	// Constructor - loads, compiles, and links shaders
-	Shader(const std::string& vertexPath, const std::string& fragmentPath);
+	Shader(const std::string& vertexPath, const std::string& fragmentPath, bool useEmbedded);
 
 	// Activate the shader program
 	void use() const;

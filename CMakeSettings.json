@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "name": "x64-Clang-Debug",
+      "generator": "Ninja",
+      "cmakeToolchain": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "inheritEnvironments": [ "msvc_x64" ],
+      "buildRoot": "C:/Users/halor/source/repos/miniverse-engine/build",
+      "variables": []
+    }
+  ]
+}

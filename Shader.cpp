@@ -1,12 +1,23 @@
 #include "Shader.h"
+#include "GeneratedShaders.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 // Constructor - loads, compiles, and links shaders
-Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
-	// Load shader source code
-	std::string vertexCode = loadShaderSource(vertexPath);
-	std::string fragmentCode = loadShaderSource(fragmentPath);
+Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath, bool useEmbedded) {
+    std::string vertexCode, fragmentCode;
+
+    if (useEmbedded) {
+        if (vertexPath == "vertex_shader") vertexCode = vertexShaderSource;
+        else if (vertexPath == "outline_vertex_shader") vertexCode = outlineVertexShaderSource;
+
+        if (fragmentPath == "fragment_shader") fragmentCode = fragmentShaderSource;
+        else if (fragmentPath == "outline_fragment_shader") fragmentCode = outlineFragmentShaderSource;
+    }
+    else {
+        vertexCode = loadShaderSource(vertexPath);
+        fragmentCode = loadShaderSource(fragmentPath);
+    }
 
     if (vertexCode.empty() || fragmentCode.empty()) {
         std::cerr << "ERROR: Shader source is empty!" << std::endl;
